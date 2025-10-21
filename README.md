@@ -1,6 +1,8 @@
-# JSONata API Gateway
+# API Thing
 
-A production-ready Cloudflare Workers API gateway that uses JSONata expressions to declaratively transform API requests and responses between different OpenAPI specifications.
+> Declarative API versioning at the edge.
+
+API Thing manages multiple versions, defined as OpenAPI specs, with declarative transformations courtest of JSONata. Running at the edge on Cloudflare Workers.
 
 ## Features
 
@@ -36,7 +38,7 @@ A production-ready Cloudflare Workers API gateway that uses JSONata expressions 
 
 - Node.js 18+
 - Cloudflare account with Workers access
-- Wrangler CLI installed (`npm install -g wrangler`)
+- Wrangler CLI installed (`pnpm install -g wrangler`)
 
 ### Installation
 
@@ -126,6 +128,8 @@ $map(users, function($user) {
 
 ### Transformation Config (`transformations/config.json`)
 
+This sample API Thing configuration comes packaged with the service for demonstration purposes. This is a proprietary config which references JSONata transformation files.
+
 ```json
 {
   "version": "1.0.0",
@@ -154,6 +158,8 @@ $map(users, function($user) {
 
 ## CLI Tools
 
+API Thing comes with a CLI for generating transformations.
+
 ### Generate Transformations from OpenAPI
 
 Automatically generate JSONata expressions by comparing OpenAPI specs:
@@ -163,6 +169,7 @@ pnpm run generate:transformations openapi/v1.yaml openapi/v2.yaml
 ```
 
 Output:
+
 - `transformations/v1-to-v2-request.jsonata`
 - `transformations/v2-to-v1-response.jsonata`
 - `transformations/config.json`
@@ -189,7 +196,7 @@ pnpm run upload:config -- --env production
 pnpm run deploy:production
 ```
 
-## API Version Detection
+## Version Detection
 
 The gateway detects the API version from multiple sources (in order of priority):
 
@@ -224,7 +231,7 @@ api-thing/
 └── README.md
 ```
 
-## Performance
+<!-- ## Performance
 
 Target metrics:
 
@@ -232,7 +239,7 @@ Target metrics:
 - **Complex Transformations**: <10ms for nested/array operations
 - **Cold Start**: <5ms worker initialization
 - **Memory**: <20MB per worker instance
-- **Throughput**: 1000+ req/s per worker
+- **Throughput**: 1000+ req/s per worker -->
 
 ## Testing
 
@@ -361,6 +368,7 @@ MIT
 ## Support
 
 For issues and questions:
+
 - Open an issue on GitHub
 - Check the [implementation_guide.md](./implementation_guide.md) for detailed architecture
 - Review example transformations in [transformations/](./transformations/)
