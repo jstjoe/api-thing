@@ -1,0 +1,49 @@
+(
+  /*
+   * Transform v2 API response back to v1 format
+   *
+   * Reverse transformations:
+   * - id → user_id
+   * - name → full_name
+   * - email → email_address
+   */
+
+  $isArray($) ?
+    /* Handle array of objects */
+    $map($, function($item) {
+      {
+        "user_id": $item.id,
+        "full_name": $item.name,
+        "user_name": $item.username,
+        "email_address": $item.email,
+        "address": $item.address ? {
+          "street": $item.address.street,
+          "suite": $item.address.suite,
+          "city": $item.address.city,
+          "zipcode": $item.address.zipcode,
+          "geo": $item.address.geo
+        } : undefined,
+        "phone_number": $item.phone,
+        "website": $item.website,
+        "company": $item.company
+      }
+    })
+  :
+    /* Handle single object */
+    {
+      "user_id": $.id,
+      "full_name": $.name,
+      "user_name": $.username,
+      "email_address": $.email,
+      "address": $.address ? {
+        "street": $.address.street,
+        "suite": $.address.suite,
+        "city": $.address.city,
+        "zipcode": $.address.zipcode,
+        "geo": $.address.geo
+      } : undefined,
+      "phone_number": $.phone,
+      "website": $.website,
+      "company": $.company
+    }
+)

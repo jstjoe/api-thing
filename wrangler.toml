@@ -1,0 +1,49 @@
+name = "jsonata-api-gateway"
+main = "dist/worker.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Default environment variables
+[vars]
+UPSTREAM_API = "https://jsonplaceholder.typicode.com"
+LOG_LEVEL = "info"
+TRANSFORMATION_TIMEOUT_MS = "50"
+CACHE_TTL_SECONDS = "3600"
+
+# KV namespace for transformation rules
+[[kv_namespaces]]
+binding = "TRANSFORMATIONS"
+id = "preview_id"
+
+# Development environment
+[env.dev]
+name = "jsonata-api-gateway-dev"
+vars = { LOG_LEVEL = "debug" }
+
+[[env.dev.kv_namespaces]]
+binding = "TRANSFORMATIONS"
+id = "dev_namespace_id"
+
+# Staging environment
+[env.staging]
+name = "jsonata-api-gateway-staging"
+route = { pattern = "api-staging.example.com/*", zone_name = "example.com" }
+
+[[env.staging.kv_namespaces]]
+binding = "TRANSFORMATIONS"
+id = "staging_namespace_id"
+
+# Production environment
+[env.production]
+name = "jsonata-api-gateway-prod"
+route = { pattern = "api.example.com/*", zone_name = "example.com" }
+
+[[env.production.kv_namespaces]]
+binding = "TRANSFORMATIONS"
+id = "production_namespace_id"
+
+[build]
+command = "npm run build"
+
+[observability]
+enabled = true

@@ -1,0 +1,52 @@
+{
+  "name": "jsonata-api-gateway",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers API gateway with JSONata-based transformations between OpenAPI specifications",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "build": "node build.js",
+    "build:types": "tsc --project tsconfig.build.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration",
+    "generate:transformations": "tsx tools/generate-jsonata.ts",
+    "validate:transformations": "tsx tools/validate-transformations.ts",
+    "upload:config": "tsx tools/deploy.ts",
+    "lint": "eslint src tools tests",
+    "type-check": "tsc --noEmit",
+    "type-check:build": "tsc --project tsconfig.build.json --noEmit"
+  },
+  "keywords": [
+    "api-gateway",
+    "jsonata",
+    "cloudflare-workers",
+    "openapi",
+    "transformation",
+    "versioning"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "jsonata": "^2.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.16.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "wrangler": "^3.91.0",
+    "yaml": "^2.6.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

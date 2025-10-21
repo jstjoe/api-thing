@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "defaultVersion": "v2",
+  "upstreamVersion": "v2",
+  "transformations": {
+    "v1": {
+      "request": {
+        "expression": "kv:transformations/v1-to-v2-request.jsonata",
+        "description": "Transform v1 request to v2 format (field renames)",
+        "cacheTtl": 3600
+      },
+      "response": {
+        "expression": "kv:transformations/v2-to-v1-response.jsonata",
+        "description": "Transform v2 response back to v1 format",
+        "cacheTtl": 3600
+      },
+      "targetVersion": "v2"
+    },
+    "v2": {
+      "request": {
+        "expression": "$",
+        "description": "No transformation (current version)"
+      },
+      "response": {
+        "expression": "$",
+        "description": "No transformation (current version)"
+      },
+      "targetVersion": "v2"
+    }
+  },
+  "routing": {
+    "/users": ["v1", "v2"],
+    "/users/:id": ["v1", "v2"],
+    "/posts": ["v1", "v2"],
+    "/comments": ["v1", "v2"]
+  },
+  "metadata": {
+    "generatedAt": "2025-01-20T00:00:00Z",
+    "generatedBy": "manual-configuration",
+    "description": "JSONPlaceholder API v1/v2 transformations"
+  }
+}

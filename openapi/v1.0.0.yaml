@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: User API
+  version: 1.0.0
+  description: Legacy v1 API with snake_case field names
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /users:
+    get:
+      summary: List all users
+      operationId: listUsers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+
+    post:
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - user_id
+        - full_name
+        - email_address
+      properties:
+        user_id:
+          type: integer
+          description: Unique user identifier
+          example: 1
+        full_name:
+          type: string
+          description: User's full name
+          example: "Leanne Graham"
+        user_name:
+          type: string
+          description: Username
+          example: "Bret"
+        email_address:
+          type: string
+          format: email
+          description: User's email address
+          example: "leanne@example.com"
+        phone_number:
+          type: string
+          description: Phone number
+          example: "1-770-736-8031"
+        website:
+          type: string
+          format: uri
+          description: Personal website
+          example: "https://hildegard.org"
+        address:
+          $ref: '#/components/schemas/Address'
+        company:
+          $ref: '#/components/schemas/Company'
+
+    UserInput:
+      type: object
+      required:
+        - full_name
+        - email_address
+      properties:
+        full_name:
+          type: string
+          example: "John Doe"
+        user_name:
+          type: string
+          example: "johndoe"
+        email_address:
+          type: string
+          format: email
+          example: "john@example.com"
+        phone_number:
+          type: string
+          example: "555-1234"
+
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "Kulas Light"
+        suite:
+          type: string
+          example: "Apt. 556"
+        city:
+          type: string
+          example: "Gwenborough"
+        zipcode:
+          type: string
+          example: "92998-3874"
+        geo:
+          $ref: '#/components/schemas/Geo'
+
+    Geo:
+      type: object
+      properties:
+        lat:
+          type: string
+          example: "-37.3159"
+        lng:
+          type: string
+          example: "81.1496"
+
+    Company:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Romaguera-Crona"
+        catchPhrase:
+          type: string
+          example: "Multi-layered client-server neural-net"
+        bs:
+          type: string
+          example: "harness real-time e-markets"
